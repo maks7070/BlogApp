@@ -74,12 +74,15 @@ public class LoginWindow extends JFrame implements ActionListener
                 repaint();
             }
             else{
-                //TODO add createAccountWindow in which the user will be able to create a new account
+
+
 
             }
         }
         else if(e.getSource() == createAccountButton){
             System.out.println("Creation button pressed");
+            dispose();
+            CreateAccountWindow caw = new CreateAccountWindow();
         }
     }
 
