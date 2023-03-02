@@ -1,4 +1,7 @@
-package graphics;
+package graphics.windows;
+
+import graphics.DatabaseConnection;
+import graphics.windows.LoginWindow;
 
 import javax.swing.*;
 import java.awt.*;
@@ -100,29 +103,44 @@ public class CreateAccountWindow extends JFrame
 
     public void createAccount(String username, String password){
         System.out.println("Creating account");
-
-        try(Connection conn = DatabaseConnection.getConnection())
+        if(checkUsernameExists(username))
         {
+            informationLabel.setText("This username is already taken");
+        }else{
+            addUserTotheDatabase(username,password);
+        }
+    }
+
+
+    public boolean checkUsernameExists(String username)
+    {
+        try(Connection conn = DatabaseConnection.getConnection()){
             String query = "select count(*) from users where username=?";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1,username);
             ResultSet rs = statement.executeQuery();
             rs.next();
-            if(rs.getInt(1) > 0)
-            {
-                informationLabel.setText("The user with this username already exists");
-                revalidate();
-                repaint();
-            }
-            else{
-                String query1 = "insert into users (username,password) values (?,?)";
-                statement = conn.prepareStatement(query1);
-                statement.setString(1,username);
-                statement.setString(2,password);
-                statement.executeQuery();
-            }
-        }catch (Exception e){
+            return rs.getInt(1)>0;
+        }catch(Exception e){
             e.printStackTrace();
+            return false;
+        }
+
+    }
+
+
+    public void addUserTotheDatabase(String username, String password)
+    {
+        try(Connection conn = DatabaseConnection.getConnection())
+        {
+            String query = "insert into users (username, password) values (?,?)";
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1,username);
+            statement.setString(2,password);
+            statement.executeUpdate();
+            System.out.println("User added");
+        }catch (Exception e){
+         e.printStackTrace();
         }
     }
 

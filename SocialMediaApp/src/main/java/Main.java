@@ -1,6 +1,4 @@
-import graphics.LoginWindow;
-
-import java.sql.Connection;
+import graphics.windows.LoginWindow;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,6 +1,9 @@
-package graphics;
+package graphics.windows;
 
 
+
+import graphics.DatabaseConnection;
+import people.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,7 +77,10 @@ public class LoginWindow extends JFrame implements ActionListener
                 repaint();
             }
             else{
-
+                dispose();
+                System.out.println("Logged in");
+                User u = new User(usernameField.getText(),passwordField.getToolTipText());
+                UserWindow uw = new UserWindow(u);
 
 
             }
