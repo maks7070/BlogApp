@@ -98,20 +98,19 @@ public class LoginWindow extends JFrame implements ActionListener
         boolean isValid = false;
         try(Connection conn = DatabaseConnection.getConnection())
         {
-            String sql = "select * from users where username = ?";
+            String sql = "select count(*) from users where username = ? and password = ?";
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1,username);
+            statement.setString(2,password);
             ResultSet rs = statement.executeQuery();
             if(rs.next()){
-                String hashedPassword = rs.getString("password");
-                if(hashedPassword.equals(password)){
-                    isValid = true;
-                }
+                isValid = rs.getInt(1)>0;
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return isValid;
+
     }
 
 

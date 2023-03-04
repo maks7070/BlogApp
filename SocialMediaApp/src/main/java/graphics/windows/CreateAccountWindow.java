@@ -128,13 +128,16 @@ public class CreateAccountWindow extends JFrame
 
     }
 
-
+    /**
+     * Function which is responsible for adding a new user into the database
+     * @param username username of new user
+     * @param password password of new user
+     */
     public void addUserTotheDatabase(String username, String password)
     {
         try(Connection conn = DatabaseConnection.getConnection())
         {
-            String query = "insert into users (username, password) values (?,?)";
-            PreparedStatement statement = conn.prepareStatement(query);
+            PreparedStatement statement = conn.prepareStatement("insert into users (username, password) values (?,?)");
             statement.setString(1,username);
             statement.setString(2,password);
             statement.executeUpdate();

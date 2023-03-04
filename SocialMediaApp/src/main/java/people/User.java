@@ -1,5 +1,10 @@
 package people;
 
+import graphics.DatabaseConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class User {
@@ -9,17 +14,11 @@ public class User {
     private ArrayList<Post> posts;
     private ArrayList<User> friends;
 
-    public User(String username, String password){
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        posts = new ArrayList<Post>();
+        posts = new ArrayList<>();
         friends = new ArrayList<>();
-//        for(int i  = 0; i < 20;i++)
-//        {
-//            posts.add(new Post("Max","abc","test1"));
-//        }
-
-
     }
 
 
@@ -40,8 +39,7 @@ public class User {
     }
 
     //TODO add function which loads users post when the user logs in
-    private void loadPosts()
-    {
+    private void loadPosts() {
 
     }
 
@@ -50,8 +48,23 @@ public class User {
     }
 
     //TODO add function to load the friend list
-    private void loadFriends()
+    private void loadFriends() {
+
+    }
+
+
+
+
+    private void refreshPostsArray()
     {
 
+    }
+    private void refreshFriendsArray()
+    {
+
+    }
+    private void refreshRequestArray()
+    {
+        
     }
 }

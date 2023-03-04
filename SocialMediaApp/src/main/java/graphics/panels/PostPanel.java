@@ -17,6 +17,7 @@ public class PostPanel extends JPanel
     public PostPanel(Post post)
     {
         super();
+        this.post = post;
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         this.setPreferredSize(new Dimension(800,100));
         //this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -25,6 +26,7 @@ public class PostPanel extends JPanel
         titleLabel = new JLabel(post.getTitle());
         contentLabel = new JTextArea(post.getContent());
         contentLabel.setEditable(false);
+        contentLabel.setMaximumSize(new Dimension(800,50));
 
 
         authorLabel.setFont(new Font("Arial",Font.BOLD,18));
