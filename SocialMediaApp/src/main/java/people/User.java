@@ -19,6 +19,8 @@ public class User {
         this.password = password;
         posts = new ArrayList<>();
         friends = new ArrayList<>();
+//        for(int i  = 0; i < 20;i++)
+//            posts.add(new Post("max","title1","test1"));
     }
 
 

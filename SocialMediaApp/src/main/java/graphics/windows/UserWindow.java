@@ -91,6 +91,7 @@ public class UserWindow extends JFrame
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO implement write message action listenter
+                WriteMessageWindow wmw = new WriteMessageWindow(user);
             }
         });
 
@@ -113,6 +114,7 @@ public class UserWindow extends JFrame
         {
             PostPanel pp = new PostPanel(p);
             pp.setPreferredSize(new Dimension(800,100));
+            pp.setMaximumSize(new Dimension(800,100));
             feedsPanel.add(pp);
         }
         getContentPane().setLayout(new BorderLayout());
