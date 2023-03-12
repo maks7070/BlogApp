@@ -1,6 +1,7 @@
 package graphics;
 
 import people.Message;
+import people.Post;
 import people.User;
 
 import javax.xml.crypto.Data;
@@ -232,7 +233,7 @@ public class DatabaseConnection
         ArrayList<Integer> ids = new ArrayList<>();
         try(Connection conn = DatabaseConnection.getConnection()){
             int secondID = -1;
-            PreparedStatement statement = conn.prepareStatement("select user1_id from conversations where user2 = ?");
+            PreparedStatement statement = conn.prepareStatement("select user1_id from conversations where user2_id = ?");
             statement.setInt(1, id);
 
             ResultSet rs = statement.executeQuery();
@@ -273,6 +274,55 @@ public class DatabaseConnection
             e.printStackTrace();
         }
         return messages;
+    }
+
+
+
+
+
+    public static void addPostToDatabase(int userID, String text, String title)
+    {
+        try(Connection conn = getConnection())
+        {
+            PreparedStatement statement = conn.prepareStatement("insert into posts (title,content,author_id) values (?,?,?);");
+            statement.setString(1,title);
+            statement.setString(2,text);
+            statement.setInt(3,userID);
+            statement.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    public static ArrayList<Post> getAllPosts()
+    {
+        ArrayList<Post> posts = new ArrayList<>();
+        try(Connection conn = getConnection()){
+            PreparedStatement statement = conn.prepareStatement("select * from posts");
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                int id = rs.getInt("id");
+                String text = rs.getString("content");
+                String title = rs.getString("title");
+                String userName = getUsernameById(rs.getInt("author_id"));
+                Post p = new Post(userName,title,text);
+                posts.add(p);
+
+            }
+
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return posts;
+
+
+
+
     }
 
 

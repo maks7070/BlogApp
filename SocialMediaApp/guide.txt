@@ -1,0 +1,9 @@
+Main Windows:
+User window - first window user see after loggin in
+Login window - first window which user sees top login, there is a possibility to create an account there
+Create account window - user can create an account there
+Add friends window - user can send friends requests there
+Accept friends window - user can accept friends proposals
+Write message window - user can write messages there
+
+

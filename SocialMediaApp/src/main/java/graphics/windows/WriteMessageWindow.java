@@ -1,6 +1,8 @@
 package graphics.windows;
 
-import graphics.panels.messageWindow.MessagePanel;
+import graphics.DatabaseConnection;
+import graphics.panels.messageWindowPanels.ChatPanel;
+import graphics.panels.messageWindowPanels.MessagePanel;
 import people.User;
 
 import javax.swing.*;
@@ -16,14 +18,6 @@ public class WriteMessageWindow extends JFrame
     private JButton createMessage;
 
 
-    private JPanel navigationPanel;
-    private JButton back;
-    private JButton createPostButton;
-    private JButton addFriendsButton;
-    private JButton acceptRequestButton;
-    private JButton profileButton;
-    private JButton logoutButton;
-
 
     private JPanel mainPanel;
 
@@ -38,27 +32,48 @@ public class WriteMessageWindow extends JFrame
         super("Write message");
         this.user = user;
 
+
+
         createMessagePanel = new JPanel(new GridBagLayout());
         senderUsername = new JTextField(20);
         createMessage = new JButton("Create message");
         mainPanel = new JPanel();
 
+
+        //Add past messages
+        mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
+        MessagePanel mp = new MessagePanel(user,"max");
+        JScrollPane scrollPane = new JScrollPane(mp);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        mainPanel.add(scrollPane);
+
         createMessage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO add action listener to change mainPanel to message panel for selected user
+                String username = senderUsername.getText();
+                int index = DatabaseConnection.getIdByUsername(username);
+                if(index == -1)
+                {
+                    createMessage.setText("Invalid");
+                    senderUsername.setText("");
+                    revalidate();
+                    repaint();
+                }
+                else{
+                    ChatPanel chatPanel = new ChatPanel(user,username);
+                    mainPanel.removeAll();
+                    mainPanel.add(chatPanel);
+                }
 
             }
         });
 
 
-        mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
+
 
         //TODO add past conversation
-        MessagePanel mp = new MessagePanel(user,"max");
-        JScrollPane scrollPane = new JScrollPane(mp);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        mainPanel.add(scrollPane);
+
 
 
 
@@ -93,4 +108,6 @@ public class WriteMessageWindow extends JFrame
 
 
     }
+
+
 }

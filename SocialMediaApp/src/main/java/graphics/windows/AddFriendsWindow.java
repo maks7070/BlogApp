@@ -1,7 +1,8 @@
 package graphics.windows;
 
 import graphics.DatabaseConnection;
-import graphics.panels.AddFriendsPanel;
+import graphics.panels.addFriendWindowPanels.AddFriendsPanel;
+import graphics.panels.mainUtilityPanels.NavigationPanel;
 import people.User;
 
 import javax.swing.*;
@@ -16,12 +17,14 @@ import java.util.ArrayList;
 public class AddFriendsWindow extends JFrame
 {
     private User user;
+
     private JTextField username;
     private JPanel searchPanel;
     private JPanel resultPanel;
     //private JPanel mainPanel;
     private JButton searchButton;
     private JPanel navigationPanel;
+    private JFrame lastFrame;
 
 
     private JButton back;
@@ -34,13 +37,15 @@ public class AddFriendsWindow extends JFrame
 
 
 
-    public AddFriendsWindow(User user)
+    public AddFriendsWindow(User user, JFrame lastFrame)
     {
         super("Friends panel");
         this.user = user;
+
+        this.lastFrame = lastFrame;
         username = new JTextField(20);
         searchPanel = new JPanel(new GridBagLayout());
-        navigationPanel = new JPanel(new FlowLayout());
+        navigationPanel = new NavigationPanel(this,user,lastFrame);
 
         resultPanel = new JPanel();
         resultPanel.setLayout(new BoxLayout(resultPanel,BoxLayout.Y_AXIS));
@@ -83,58 +88,7 @@ public class AddFriendsWindow extends JFrame
         searchPanel.add(searchButton,gbc);
 
 
-        back = new JButton("Back");
-        back.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                UserWindow uw = new UserWindow(user);
-            }
-        });
-        createPostButton = new JButton("Create new post");
-        createPostButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO implement Action listener
-            }
-        });
-        myProfileButton = new JButton("Profile");
-        myProfileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO implement action listener
-            }
-        });
-        writeMessage = new JButton("Message");
-        writeMessage.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO implement action listener
-            }
-        });
-        logoutButton = new JButton("Logout");
-        logoutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO implement action listener
-            }
-        });
-        acceptFriendsButton = new JButton("Accept friends");
-        acceptFriendsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                AcceptFriendProposalsWindow afpw = new AcceptFriendProposalsWindow(user);
-            }
-        });
 
-
-        navigationPanel.add(back);
-        navigationPanel.add(createPostButton);
-        navigationPanel.add(acceptFriendsButton);
-        navigationPanel.add(myProfileButton);
-        navigationPanel.add(writeMessage);
-        navigationPanel.add(logoutButton);
 
 
         JScrollPane scrollPane = new JScrollPane(resultPanel);
@@ -144,10 +98,7 @@ public class AddFriendsWindow extends JFrame
 
 
 
-//        getContentPane().setLayout(new BorderLayout());
-//        getContentPane().add(searchPanel,BorderLayout.NORTH);
-//        getContentPane().add(scrollPane,BorderLayout.CENTER);
-//        getContentPane().add(navigationPanel,BorderLayout.SOUTH);
+
 
 
         setLayout(new BorderLayout());
@@ -159,6 +110,16 @@ public class AddFriendsWindow extends JFrame
 
 
     }
+
+
+
+    public JFrame getLastFrame() {
+        return lastFrame;
+    }
+
+
+
+
 
     //TODO add modifications to not include your account when searching
     private ArrayList<User> getSearchResult(String username)
